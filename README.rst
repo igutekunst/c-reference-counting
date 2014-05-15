@@ -8,7 +8,9 @@ Reference counting memory management library
 ============================================
 
 Note: The implementation does not include 
-hierarchical memory management
+hierarchical memory management yet. 
+
+See refcount.h: https://github.com/igutekunst/c-reference-counting/blob/master/refcount.h
 
 This library provides functions to manage memory with 
 reference counting.
