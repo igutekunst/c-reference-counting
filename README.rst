@@ -12,7 +12,7 @@ hierarchical memory management yet.
 
 See refcount.h_.
 
-.. _refcount.h: https://github.com/igutekunst/c-reference-counting/blob/master/refcount.h
+.. _refcount.h: https://github.com/igutekunst/c-reference-counting/blob/master/src/refcount.h
 
 This library provides functions to manage memory with 
 reference counting.
