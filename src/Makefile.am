@@ -1,6 +1,3 @@
-bin_PROGRAMS = refcount
-AM_CFLAGS = -I$(top_srcdir)/src/bin
+lib_LIBRARIES = librefcount.a
 
-refcount_LDADD = -lcheck
-refcount_SOURCES = refcount.c \
-			  test.tc
+librefcount_a_SOURCES = refcount.c refcount.h

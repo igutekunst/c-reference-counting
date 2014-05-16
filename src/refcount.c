@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <refcount.h>
+#include "refcount.h"
 
 typedef struct SmartPointer * SmartPointer;
 typedef struct SmartPointerList * SmartPointerList;

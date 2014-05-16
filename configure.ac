@@ -2,12 +2,15 @@ AC_INIT([refcount], [0.0.1], [igutekunst@gmail.com])
 AM_INIT_AUTOMAKE([foreign -Wall -Werror])
 AC_PROG_CC
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile src/Makefile])
+AC_CONFIG_FILES([Makefile src/Makefile tests/Makefile])
 
 # Checks for programs.
 AC_PROG_CC_C99
+AC_PROG_RANLIB
+AM_PROG_AR
 
 AC_CHECK_LIB([check], [main])
+AM_PATH_CHECK
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdint.h stdlib.h])
