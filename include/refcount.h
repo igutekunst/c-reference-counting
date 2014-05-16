@@ -1,5 +1,7 @@
 #ifndef REFCOUNT_H
 #define REFCOUNT_H
+#include <stdint.h>
+#include <stdlib.h>
 /**
  * Reference counting memory management library
  * ============================================

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "refcount.h"
+#include <refcount.h>
 
 typedef struct SmartPointer * SmartPointer;
 typedef struct SmartPointerList * SmartPointerList;
@@ -11,11 +11,22 @@ struct SmartPointerList {
   SmartPointerList next;
 };
 
+
 struct SmartPointer {
   size_t ref_count;
   SmartPointerList * children;
   void * data;
 };
+
+static SmartPointer x;
+
+/*
+ * Calculate a machine indepentent offset
+ * between the start of a SmartPointer and the data 
+ * part
+ */
+#define POINTER_OFFSET ((void * ) &(x->data) - (void * )&(x))
+
 
 /*
  * Create a new SmartPointerList with list
@@ -24,13 +35,19 @@ struct SmartPointer {
 SmartPointerList append_SmartPointer(SmartPointerList list, SmartPointer pointer) {
   SmartPointerList newList = (SmartPointerList)  malloc(sizeof(struct SmartPointerList));
   newList->pointer = pointer;
-  if (list) {
-    newList->next = NULL;
-  } else {
-    newList->next = list;
-  }
-
+  newList->next = list;
   return newList;
+}
+
+
+size_t len_SmartPointerList(SmartPointerList list) {
+  SmartPointerList current  = list;
+  size_t i = 0;
+  while (current) {
+    i++;
+    current = current->next;
+  }
+  return i;
 }
 
 
@@ -81,7 +98,7 @@ bool remove_SmartPointer(SmartPointerList * list, SmartPointer pointer) {
 
 
 SmartPointer get_smart_pointer(void * data) {
-  SmartPointer p =  (SmartPointer) (data - sizeof(size_t));
+  SmartPointer p =  (SmartPointer) (data - POINTER_OFFSET);
   return p;
 }
 
@@ -94,7 +111,8 @@ void * alloc(size_t bytes) {
   }
 
   p->ref_count = 1;
-  p->data = ((void *) p ) + sizeof(size_t);
+  p->children = NULL;
+  p->data = ((void *) p ) + POINTER_OFFSET;
   return p->data;
 }
 
@@ -123,17 +141,3 @@ int release(void * data) {
 
 
 
-int main() {
-  void * t = alloc(10);
-  SmartPointer p = get_smart_pointer(t);
-  printf("refcount %d \n", p->ref_count);
-
-  retain(t);
-  printf("refcount %d \n", p->ref_count);
-
-  release(t);
-  printf("refcount %d \n", p->ref_count);
-
-  release(t);
-
-}
