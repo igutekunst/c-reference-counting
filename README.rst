@@ -39,8 +39,17 @@ block of memory.
 When a parent block of memory is freed, all of its children 
 are released (and freed) as well.
 
+Installation
+============
+Brief Instuctions::
+
+  autoreconf --install
+  ./configure --prefix=/usr/local #Change this as you see fit
+  make && make install
+  
 Warnings
 ========
+
 The library incurs a space overhead of sizeof(size_t) per 
 block of memory allocated + any overhead due to memory
 alignment introduced by the underlying malloc implementation
