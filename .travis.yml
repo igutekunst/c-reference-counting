@@ -1,0 +1,8 @@
+language: c
+compiler:
+    - gcc
+    - clang
+# Change this to your needs
+script: 
+    autoreconf --install &&
+    ./configure && make check
