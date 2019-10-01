@@ -57,7 +57,7 @@
  * on failure
  *
  */
-void *  alloc     (size_t bytes);
+void *  rc_alloc     (size_t bytes);
 
 
 /**
@@ -69,7 +69,7 @@ void *  alloc     (size_t bytes);
  *
  * @return new refernce count, or -1 on failure
  */
-int     retain    (void * data);
+int     rc_retain    (void * data);
 
 
 /**
@@ -86,7 +86,7 @@ int     retain    (void * data);
  *
  * @return new reference count, or -1 on failure
  */
-int     release   (void * data);
+int     rc_release   (void * data);
 
 
 /**

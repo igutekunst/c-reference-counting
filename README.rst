@@ -22,7 +22,7 @@ multiple references to a single buffer, and freeing the
 memory when all references are released.
 
 The library is not magic however. Care must be taken to 
-retain and release memory in appropriate locations by calling 
+rc_retain and release memory in appropriate locations by calling
 the relevant functions.
 
 Hierarchical Memory Management
