@@ -9,10 +9,13 @@
 #include <assert.h>
 
 #include "linked_list.h"
+
+
 struct ListEntry {
     void* item;
     struct ListEntry* next;
     struct ListEntry* prev;
+    LinkedList* list;
 };
 
 typedef struct ListEntry ListEntry;
@@ -23,11 +26,15 @@ struct LinkedList {
     struct ListEntry* tail;
 };
 
-LinkedList* linked_list_create() {
-    LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+void linked_list_init(LinkedList* list) {
     list->len = 0;
     list->tail = NULL;
     list->head = NULL;
+}
+
+LinkedList* linked_list_create() {
+    LinkedList* list = (LinkedList*) malloc(sizeof(LinkedList));
+    linked_list_init(list);
     return list;
 }
 
@@ -39,6 +46,7 @@ size_t linked_list_len(LinkedList* list) {
     }
     return list->len;
 }
+
 
 void linked_list_append(LinkedList* list, void* ptr) {
     if (list == NULL) {
@@ -63,7 +71,6 @@ void linked_list_append(LinkedList* list, void* ptr) {
         list->tail->next = item;
         list->tail = item;
     }
-
 
     list->len++;
 }
@@ -133,3 +140,6 @@ bool linked_list_pop(LinkedList* list, void** ret) {
 
     return true;
 }
+
+//TODO this is all fine and everything, except Linux does it better:
+// https://kernelnewbies.org/FAQ/LinkedLists

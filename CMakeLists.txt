@@ -13,6 +13,7 @@ find_package(check REQUIRED)
 
 add_library(refcount
         src/refcount.c
+        src/list.h
         src/refcount_internal.h
         include/refcount/refcount.h
         src/linked_list.c src/linked_list.h)
@@ -22,6 +23,11 @@ target_include_directories(refcount PRIVATE include)
 add_executable(test_all
         tests/test_all.c
         tests/test_linked_list.c tests/test_linked_list.h tests/test_refcount.c tests/test_refcount.h)
+
+add_executable(simple_example
+        examples/simple.c
+        )
+target_include_directories(simple_example PRIVATE include)
 
 LINK_DIRECTORIES(/usr/local/lib)
 

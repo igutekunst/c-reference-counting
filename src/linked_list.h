@@ -9,6 +9,7 @@
 
 typedef struct LinkedList LinkedList;
 
+
 LinkedList* linked_list_create();
 size_t linked_list_len(LinkedList* list);
 void linked_list_append(LinkedList* list, void* item);
