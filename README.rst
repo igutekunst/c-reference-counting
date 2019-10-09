@@ -36,7 +36,7 @@ It does this with the concept of nested memory allocation,
 where memory can be allocated "within" the scope of another 
 block of memory.
 
-When a parent block of memory is freed, all of its children 
+When a parent block of memory is freed, all of its children
 are released (and freed) as well.
 
 Installation

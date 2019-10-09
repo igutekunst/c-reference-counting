@@ -141,5 +141,3 @@ bool linked_list_pop(LinkedList* list, void** ret) {
     return true;
 }
 
-//TODO this is all fine and everything, except Linux does it better:
-// https://kernelnewbies.org/FAQ/LinkedLists

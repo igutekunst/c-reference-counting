@@ -8,10 +8,14 @@ typedef struct SmartPointer SmartPointer;
 
 struct SmartPointer {
     size_t ref_count;
-    struct list_head siblings;
-    struct list_head children;
+    /**
+     * Keep track of all allocations for debug purposes
+     */
+    struct list_head allocation_list_head;
+    struct list_head sibling_list;
+    struct list_head children_list;
     void * data;
-    // TODO this is a lot of overhead for a single pointer!
+    // TODO add de-allocator pointer too!
 };
 
 static struct SmartPointer x;

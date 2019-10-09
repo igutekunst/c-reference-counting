@@ -106,7 +106,7 @@ int     rc_release   (void * data);
  * on failure
  *
  */
-void *  alloc_in      (void * parent, size_t bytes);
+void* rc_alloc_in(void* parent, size_t bytes);
 
 
 /**
@@ -116,6 +116,21 @@ void *  alloc_in      (void * parent, size_t bytes);
  * Increases the internal reference count
  * and returns the new value.
  *
+ * Notes: Only 1 parent allowed
+ *      This would require each parent to allocate a full linked list.
+ *
+ *      Right now the implementation stores the list_head item in each SmartPointer.
+ *
+ *      This  would make it difficult for a pointer to be released
+ *      if it has multiple parents, because it needs to keep track of all of its parents.
+ *
+ *      Therefore, it should be a runtime error to retain a pointer with two
+ *      parents... I wonder how problematic this will be?
+ *
+ *      For a structure like a HashMap, the items owned by a HashMap struct will be
+ *      the Entries, not the Objects stored. The objects stored will be retained with
+ *      retain, but not with retain_in.
+ *
  * @param parent pointer to memory allocated with
  * alloc that will retain a reference to data
  *
@@ -123,7 +138,7 @@ void *  alloc_in      (void * parent, size_t bytes);
  *
  * @return new refernce count, or -1 on failure
  */
-int     retain_in     (void * parent, void * data);
+int rc_retain_in(void* parent, void* data);
 
 
 /**
@@ -131,19 +146,45 @@ int     retain_in     (void * parent, void * data);
  * decrementing the reference count
  * 
  *
- * This function will attempt to releas data from 
+ * This function will attempt to release data from
  * parent. If parent does not contain a reference to data,
  * do nothing and return the unchanged reference count.
+ *
+ * Notes: The only use case I can think of so far is for
+ *        ref-counted scopes. You want to specifically release
+ *        objects allocated in a scope from that scope, not just
+ *        in general.
+ *
+ *        But in that case, you just release the scope, which releases
+ *        the children. So maybe it doesn't need to exist.
+ *
+ *        No ideas for use cases yet.
  *
  * @param parent pointer to memory allocated with
  * alloc containing a reference to data
  *
  * @param data pointer to memory allocated with alloc
  *
- * @return new refernce count, or -1 on failure
+ * @return new reference count, or -1 on failure
  *
  */
 int     release_from  (void * parent, void * data);
 
+
+/**
+ * Print out current allocations
+ */
+void rc_debug_print_allocations(void);
+
+
+/**
+ * Count current allocations.
+ * Right now, this walks a linked list and is slow.
+ *
+ * Future implementations may be faster.
+ *
+ * @return
+ */
+size_t rc_debug_num_allocations(void);
 
 #endif

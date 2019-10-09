@@ -31,12 +31,12 @@ int main(int argc, char* argv[]) {
     // thread of execution, as rc_init uses an internal static variable to keep track
     // of nested reference counted scopes
 
-    // This creates a global scope that keeps track of all allocations as well
+    // This creates a global scope that keeps track of all allocations
     rc_init();
 
     // Create a scope for tracking allocations
     // Any memory allocated and not retained will be released and freed
-    // at the match rc_exit_scope
+    // at the matching rc_exit_scope
     rc_enter_scope(); // Call this scope A
 
     // Allocate two blocks of memory. These variables will allocated in scope A
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
  * it becomes easier to make dynamic data structures that need to make allocations in order to grow or otherwise
  * operate.
  *
- * The idea is that when a containing pointer's refcount goes to zero, all children pointers will have their refcount
+ * The idea is that when a containing pointer's refcount goes to zero, all children_list pointers will have their refcount
  * decremented as well, freeing the memory if necessary
  *
  *
@@ -112,14 +112,14 @@ int main(int argc, char* argv[]) {
  *
  *  All of this creates memory and CPU overhead. Each allocation will contain five pointers and a reference count.
  *
- *  The pointers are: children, refcount, next, previous, (and a pointer to the data (optional))
+ *  The pointers are: children_list, refcount, next, previous, (and a pointer to the data (optional))
  *
  *  The next/prev pointers are for storing the allocation in a linked list. This is used for nested allocations.
  *  The doubly linked nature makes it easy to perform O(1) deletions
  *
  *  The parent pointer points at the parent allocation, and is maybe not necessary.
  *
- *  The children pointer points at a linked list of nested allocations.
+ *  The children_list pointer points at a linked list of nested allocations.
  *
  *  The refcount is the refcount :)
  *
